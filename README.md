@@ -1,2 +1,2 @@
 # stat341
-Hosting lab file for stat 341
+Hosting lab files for stat 341

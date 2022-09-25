@@ -1,6 +1,6 @@
 library(shiny)
 library(ggplot2)
-install.packages("extraDistr")
+library(extraDistr)
 #runApp("~/Box Sync/STAT-341-DMO/Fall2022/Homework/DiscreteProb_shiny")
 # @author: Dr. Danica Ommen
 

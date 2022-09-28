@@ -11,7 +11,7 @@ server <- function(input, output) {
 
     observeEvent(
         input$plotNegHyperGeom,
-        output$NegHyperGeom <- renderPlot(plot.hyper(input$mNegHyper, 
+        output$NegHyperGeom <- renderPlot(plot.nhyper(input$mNegHyper, 
                                 input$NNegHyper - input$mNegHyper,
                                 input$rNegHyper))
     )

@@ -74,7 +74,7 @@ fluidPage(
 
                             numericInput(
                                 inputId = 'scaleGamma',
-                                label = 'Scale - Beta',
+                                label = 'Scale - beta',
                                 value = 1,
                                 min = 0
                             ),
@@ -213,7 +213,7 @@ fluidPage(
 
                                 numericInput(
                                     inputId = 'qqScaleBeta',
-                                    label = 'Scale - Beta',
+                                    label = 'Scale - beta',
                                     value = 1,
                                     min = 0
                                 )
@@ -266,7 +266,7 @@ fluidPage(
 
                                 numericInput(
                                     inputId = 'qqScaleGamma',
-                                    label = 'Scale - Gamma',
+                                    label = 'Scale - beta',
                                     value = 1,
                                     min = 0
                                 )

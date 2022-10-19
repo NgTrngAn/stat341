@@ -2,7 +2,7 @@ library(shiny)
 
 fluidPage(
     
-    titlePanel("STAT 341: Lab #6"),
+    titlePanel("STAT 341: Lab #7"),
 
     tabsetPanel(type="tabs",
 

@@ -297,7 +297,128 @@ fluidPage(
         ),
 
         tabPanel(
-            h3("Activity 3")
+            h3("Activity 3"),
+            tabsetPanel(
+                tabPanel(
+                    h4("Data Summary"),
+                    verbatimTextOutput("radonSummary")
+                ),
+
+                tabPanel(
+                    h4("Histograms"),
+                    
+                    mainPanel(plotOutput("radonHistogram"))
+                ),
+
+                tabPanel(
+                    h4("QQ Plot"),
+
+                    sidebarLayout(
+                        sidebarPanel(
+
+                            selectInput(
+                                inputId = "theoreticalDist3",
+                                label = "Theoretical Distribution",
+                                choices = c("Beta" = "beta",
+                                            "Normal" = "norm", 
+                                            "Chi Square" = "chisq", 
+                                            "Exponential" = "exp",
+                                            "Gamma" = "gamma",
+                                            "Uniform" = "unif")
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist3 == 'beta'",
+                                numericInput(
+                                inputId = 'qqShapeBeta3',
+                                label = 'Shape - alpha',
+                                value = 1,
+                                min = 0
+                                ),
+
+                                numericInput(
+                                    inputId = 'qqScaleBeta3',
+                                    label = 'Scale - beta',
+                                    value = 1,
+                                    min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist3 == 'norm'",
+                                numericInput(
+                                inputId = 'qqMuNormal3',
+                                label = 'Mean',
+                                value = 0
+                                ),
+
+                                numericInput(
+                                    inputId = 'qqSigmaNormal3',
+                                    label = 'Sigma',
+                                    value = 1,
+                                    min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist3 == 'chisq'",
+                                numericInput(
+                                inputId = 'qqDfChisq3',
+                                label = 'Degrees of freedom',
+                                value = 1,
+                                min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist3 == 'exp'",
+                                numericInput(
+                                inputId = 'qqRateExp3',
+                                label = 'Rate',
+                                value = 1,
+                                min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist3 == 'gamma'",
+                                numericInput(
+                                inputId = 'qqShapeGamma3',
+                                label = 'Shape - alpha',
+                                value = 1,
+                                min = 0
+                                ),
+
+                                numericInput(
+                                    inputId = 'qqScaleGamma3',
+                                    label = 'Scale - beta',
+                                    value = 1,
+                                    min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist3 == 'unif'",
+                                numericInput(
+                                inputId = 'qqLowerUnif3',
+                                label = 'Lower Bound',
+                                value = 0
+                                ),
+
+                                numericInput(
+                                    inputId = 'qqUpperUnif3',
+                                    label = 'Upper Bound',
+                                    value = 1
+                                )
+                            ),
+
+                            actionButton("plotqq3", "Plot")
+                        ),
+
+                        mainPanel(plotOutput("qqplot3"))
+                    )
+                )
+            )
         ),
 
         tabPanel(

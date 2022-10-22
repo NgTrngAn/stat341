@@ -1,6 +1,8 @@
 source("plot_generators.r")
+source("helpers.r")
 library(shiny)
 library(EnvStats)
+library(fabCI)
 
 server <- function(input, output) {
     observeEvent(
@@ -38,11 +40,9 @@ server <- function(input, output) {
     )
 
     # activity 2
-    output$randuSummary <- renderPrint(
-        {summary(randu)}
-    )
-
     data("randu")
+
+    output$randuSummary <- renderPrint({columns_summary(randu)})
 
     output$randuHistogram <- renderPlot(
         {
@@ -87,9 +87,56 @@ server <- function(input, output) {
                     parameters <- NULL
                 }
 
-                qqPlot(x, distribution = input$theoreticalDist, param.list = parameters)
+                qqPlot(x, distribution = input$theoreticalDist, param.list = parameters,
+                    add.line = TRUE, 
+                    qq.line.type = "0-1")
             }
         )
     )
 
+    # activity 3
+    data(radon)
+    radon <- as.data.frame(radon)
+
+    output$radonSummary <- renderPrint({columns_summary(radon)})
+
+        output$radonHistogram <- renderPlot(
+        {
+            hist(radon$radon, 
+                 main="Histogram of radon",
+                 xlab="value")
+        }
+    )
+
+
+    observeEvent(
+        input$plotqq3,
+        output$qqplot3 <- renderPlot(
+            {
+                x <- radon$radon
+
+                # setting parameters to go with the distribution
+                if (input$theoreticalDist3 == 'beta') {
+                    parameters <- list(shape1 = input$qqShapeBeta3, shape2 = input$qqScaleBeta3)
+                } else if (input$theoreticalDist3 == 'norm') {
+                    parameters <- list(mean = input$qqMuNormal3, sd = input$qqSigmaNormal3)
+                } else if (input$theoreticalDist3 == 'chisq') {
+                    parameters <- list(df = input$qqDfChisq3)
+                } else if (input$theoreticalDist3 == 'exp') {
+                    parameters <- list(rate = input$qqRateExp3)
+                } else if (input$theoreticalDist3 == 'gamma') {
+                    parameters <- list(shape = input$qqShapeGamma3, scale = input$qqScaleGamma3)
+                } else if (input$theoreticalDist3 == 'unif') {
+                    parameters <- list(min = input$qqLowerUnif3, max = input$qqUpperUnif3)
+                } else {
+                    parameters <- NULL
+                }
+
+                qqPlot(x, distribution = input$theoreticalDist3, param.list = parameters,
+                    add.line = TRUE, 
+                    qq.line.type = "0-1")
+            }
+        )
+    )
+    
 }

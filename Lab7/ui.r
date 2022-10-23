@@ -422,7 +422,128 @@ fluidPage(
         ),
 
         tabPanel(
-            h3("Activity 4")
-        )
+            h3("Activity 4"),
+            tabsetPanel(
+                tabPanel(
+                    h4("Data Summary"),
+                    verbatimTextOutput("refSummary")
+                ),
+
+                tabPanel(
+                    h4("Histograms"),
+                    
+                    mainPanel(plotOutput("refHistogram"))
+                ),
+
+                tabPanel(
+                    h4("QQ Plot"),
+
+                    sidebarLayout(
+                        sidebarPanel(
+
+                            selectInput(
+                                inputId = "theoreticalDist4",
+                                label = "Theoretical Distribution",
+                                choices = c("Beta" = "beta",
+                                            "Normal" = "norm", 
+                                            "Chi Square" = "chisq", 
+                                            "Exponential" = "exp",
+                                            "Gamma" = "gamma",
+                                            "Uniform" = "unif")
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist4 == 'beta'",
+                                numericInput(
+                                inputId = 'qqShapeBeta4',
+                                label = 'Shape - alpha',
+                                value = 1,
+                                min = 0
+                                ),
+
+                                numericInput(
+                                    inputId = 'qqScaleBeta4',
+                                    label = 'Scale - beta',
+                                    value = 1,
+                                    min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist4 == 'norm'",
+                                numericInput(
+                                inputId = 'qqMuNormal4',
+                                label = 'Mean',
+                                value = 0
+                                ),
+
+                                numericInput(
+                                    inputId = 'qqSigmaNormal4',
+                                    label = 'Sigma',
+                                    value = 1,
+                                    min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist4 == 'chisq'",
+                                numericInput(
+                                inputId = 'qqDfChisq4',
+                                label = 'Degrees of freedom',
+                                value = 1,
+                                min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist4 == 'exp'",
+                                numericInput(
+                                inputId = 'qqRateExp4',
+                                label = 'Rate',
+                                value = 1,
+                                min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist4 == 'gamma'",
+                                numericInput(
+                                inputId = 'qqShapeGamma4',
+                                label = 'Shape - alpha',
+                                value = 1,
+                                min = 0
+                                ),
+
+                                numericInput(
+                                    inputId = 'qqScaleGamma4',
+                                    label = 'Scale - beta',
+                                    value = 1,
+                                    min = 0
+                                )
+                            ),
+
+                            conditionalPanel(
+                                condition = "input.theoreticalDist4 == 'unif'",
+                                numericInput(
+                                inputId = 'qqLowerUnif4',
+                                label = 'Lower Bound',
+                                value = 0
+                                ),
+
+                                numericInput(
+                                    inputId = 'qqUpperUnif4',
+                                    label = 'Upper Bound',
+                                    value = 1
+                                )
+                            ),
+
+                            actionButton("plotqq4", "Plot")
+                        ),
+
+                        mainPanel(plotOutput("qqplot4"))
+                    )
+                )
+            )
+        ),
     )
 )

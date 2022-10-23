@@ -100,15 +100,14 @@ server <- function(input, output) {
 
     output$radonSummary <- renderPrint({columns_summary(radon)})
 
-        output$radonHistogram <- renderPlot(
+    output$radonHistogram <- renderPlot(
         {
             hist(radon$radon, 
                  main="Histogram of radon",
                  xlab="value")
         }
     )
-
-
+    
     observeEvent(
         input$plotqq3,
         output$qqplot3 <- renderPlot(
@@ -138,5 +137,48 @@ server <- function(input, output) {
             }
         )
     )
+
+    # activity 4
+    refractID <- read.csv("https://raw.githubusercontent.com/NgTrngAn/stat341/main/Lab7/RI_database.txt")
+
+    output$refSummary <- renderPrint({columns_summary(refractID)})
+
+    output$refHistogram <- renderPlot(
+        {
+            hist(refractID$RI, 
+                 main="Histogram of Refractive Index",
+                 xlab="value")
+        }
+    )
+
+    observeEvent(
+        input$plotqq4,
+        output$qqplot4 <- renderPlot(
+            {
+                
+                # setting parameters to go with the distribution
+                if (input$theoreticalDist4 == 'beta') {
+                    parameters <- list(shape1 = input$qqShapeBeta4, shape2 = input$qqScaleBeta4)
+                } else if (input$theoreticalDist4 == 'norm') {
+                    parameters <- list(mean = input$qqMuNormal4, sd = input$qqSigmaNormal4)
+                } else if (input$theoreticalDist4 == 'chisq') {
+                    parameters <- list(df = input$qqDfChisq4)
+                } else if (input$theoreticalDist4 == 'exp') {
+                    parameters <- list(rate = input$qqRateExp4)
+                } else if (input$theoreticalDist4 == 'gamma') {
+                    parameters <- list(shape = input$qqShapeGamma4, scale = input$qqScaleGamma4)
+                } else if (input$theoreticalDist4 == 'unif') {
+                    parameters <- list(min = input$qqLowerUnif4, max = input$qqUpperUnif4)
+                } else {
+                    parameters <- NULL
+                }
+
+                qqPlot(refractID$RI, distribution = input$theoreticalDist4, param.list = parameters,
+                    add.line = TRUE, 
+                    qq.line.type = "0-1")
+            }
+        )
+    )
+
     
 }

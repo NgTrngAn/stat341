@@ -168,7 +168,8 @@ server <- function(input, output) {
     )
 
     # activity 4
-    refractID <- read.csv("https://raw.githubusercontent.com/NgTrngAn/stat341/main/Lab7/RI_database.txt")
+    refractID <- read.csv("https://raw.githubusercontent.com/NgTrngAn/stat341/main/Lab7/RI_database.txt", sep = "\t")
+    refractID <- refractID[c("Item", "Piece", "RI")]
 
     output$refSummary <- renderPrint({columns_summary(refractID)})
 

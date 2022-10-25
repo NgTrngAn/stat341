@@ -97,14 +97,38 @@ server <- function(input, output) {
     # activity 3
     data(radon)
     radon <- as.data.frame(radon)
+    transformed <- reactiveVal(0)
 
-    output$radonSummary <- renderPrint({columns_summary(radon)})
+    observeEvent(
+        input$transform,
+        {
+            if (input$transform == "transformed") {transformed(TRUE)}
+            else {transformed(FALSE)}
+        }
+    )
+
+    output$radonSummary <- renderPrint({
+        if (transformed()){
+            columns_summary(radon)    
+        }
+        else {
+            radon$radon <- exp(radon$radon)
+            columns_summary(radon)
+        }
+    })
 
     output$radonHistogram <- renderPlot(
         {
-            hist(radon$radon, 
-                 main="Histogram of radon",
-                 xlab="value")
+            if (transformed()) {
+                hist(radon$radon, 
+                main="Histogram of radon",
+                xlab="value")
+            }
+            else {
+                hist(exp(radon$radon), 
+                main="Histogram of radon",
+                xlab="value")
+            }
         }
     )
     
@@ -112,7 +136,12 @@ server <- function(input, output) {
         input$plotqq3,
         output$qqplot3 <- renderPlot(
             {
-                x <- radon$radon
+                if (transformed()) {
+                    x <- radon$radon
+                }
+                else {
+                    x <- exp(radon$radon)
+                }
 
                 # setting parameters to go with the distribution
                 if (input$theoreticalDist3 == 'beta') {

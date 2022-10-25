@@ -297,11 +297,20 @@ fluidPage(
         ),
 
         tabPanel(
+
             h3("Activity 3"),
+            
             tabsetPanel(
                 tabPanel(
                     h4("Data Summary"),
-                    verbatimTextOutput("radonSummary")
+                    verbatimTextOutput("radonSummary"),
+
+                    radioButtons(
+                        "transform",
+                        "Transformed or Original ?",
+                        choices = list("Original" = "origin", "Transformed" = "transformed"),
+                        selected = "transformed"
+                    )
                 ),
 
                 tabPanel(
